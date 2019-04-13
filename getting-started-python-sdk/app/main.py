@@ -30,7 +30,7 @@ db = firebase.database()
 client = smartcar.AuthClient(
     client_id = "db0c47e9-4ab8-45d1-be16-2e474625279a",
     client_secret = "98588318-38af-4b62-b5de-7139609561eb",
-    redirect_uri = 'http://0.0.0.0:80/exchange',
+    redirect_uri = 'https://34.212.86.167:80/exchange',
     scope=['read_vehicle_info','control_security', 'control_security:unlock', 'control_security:lock','read_location','read_odometer',],
     test_mode=False
 )
@@ -193,6 +193,16 @@ def available_cars():
         for k,v in cars.items():
             del cars[k]['access']
         return jsonify(cars)
+
+@app.route('/car_info', methods = ['GET'])
+def car_info():
+    if request.method == 'GET':
+        vehicle_id = request.args.get('vehicle_id')
+        info = db.child('Car').child(vehicle_id).get().val()
+        #db.child('Car').child('fake_id_3').set(info)
+        del info['access']
+        return jsonify(info)
+
 
 
 
