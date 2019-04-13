@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 /* Style the video: 100% width and height to cover the entire window */
 #myVideo {
   position: fixed;
@@ -21,28 +25,43 @@
 .content2 {
   position: relative;
   width: 100%;
-  margin-top: 50%;
+  margin-top: 30%;
   text-align: center;
   color: #f1f1f1;
   width: 100%;
   padding: 20px;
 }
 
-/* Style the button used to pause/play the video */
-#myBtn {
-  width: 200px;
-  font-size: 18px;
-  padding: 10px;
-  border: none;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
+.content3 {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20%;
 }
 
-#myBtn:hover {
-  background: #ddd;
-  color: black;
+.content4 {
+  position: relative;
+  width: 100%;
+  text-align: left;
+  color: #f1f1f1;
+  width: 100%;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  padding-right: 20%;
+  padding-left: 20%;
 }
+
+.content5 {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
 
 .page-title{
     display:inline-block;
@@ -78,14 +97,39 @@ background-size: cover;
   background-size: cover;
 }
 
-.button4 {
-  background-color: white;
-  color: white;
-  border: 2px solid #e7e7e7;
+#new-button {
   background-color: transparent;
+  color: white;
+  border: 2px solid #e7e7e7;'
+  }
 
+#new-button:hover {
+  background-color: #e7e7e7;
+  opacity: 0.8;}
+
+
+.profile-container {
+    margin-top:30px;
 }
 
-.button4:hover {
-  background-color: #e7e7e7;
-  opacity: 0.5;}
+.pic{
+    width: 240px;
+    height: 320px;
+    border: 2px solid #e7e7e7;
+    border-radius: 10px;
+}
+
+.profile{
+    position: relative;
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+    color:white;
+    text-align: center;
+    padding-top: 5%;
+}
+
+
+.form-control {
+    width:400px !important;
+}
