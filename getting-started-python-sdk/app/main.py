@@ -189,7 +189,10 @@ def lock():
 def available_cars():
     if request.method == 'GET':
         cars = db.child('Car').get().val()
-        print(cars)
+        cars = {k:cars[k] for k,v in cars.items() if not cars[k]['rented']}
+        for k,v in cars.items():
+            del cars[k]['access']
+        return jsonify(cars)
 
 
 
