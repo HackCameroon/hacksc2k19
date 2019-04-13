@@ -122,7 +122,7 @@ def client_login():
         user = data['user'].replace('.','__dot__')
         password = data['password']
         if user not in db.child('User').get().val():
-            return return jsonify({'status':'Error, account does not exist'})
+            return jsonify({'status':'Error, account does not exist'})
         if db.child('User').child(user).get().val()['password'] == password:
             return jsonify({'status':'Success'})
         else:
