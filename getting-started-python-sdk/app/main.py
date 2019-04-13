@@ -30,7 +30,7 @@ db = firebase.database()
 client = smartcar.AuthClient(
     client_id = "db0c47e9-4ab8-45d1-be16-2e474625279a",
     client_secret = "98588318-38af-4b62-b5de-7139609561eb",
-    redirect_uri = 'http://localhost:8000/exchange',
+    redirect_uri = 'http://0.0.0.0:80/exchange',
     scope=['read_vehicle_info','control_security', 'control_security:unlock', 'control_security:lock','read_location','read_odometer',],
     test_mode=False
 )
@@ -118,8 +118,9 @@ def rent():
 @app.route('/client_login', methods = ['GET','POST'])
 def client_login():
     if request.method == 'POST':
-        user = request.args.get('user').replace('.','__dot__')
-        password = request.args.get('password').replace('.','__dot__')
+        data = request.form
+        user = data['user'].replace('.','__dot__')
+        password = data['password']
         if db.child('User').child(user).get().val()['password'] == password:
             return jsonify({'status':'Success'})
         else:
@@ -129,8 +130,9 @@ def client_login():
 @app.route('/register', methods = ['GET','POST'])
 def register():
     if request.method == 'POST':
-        user = request.args.get('user').replace('.','__dot__')
-        password = request.args.get('password').replace('.','__dot__')
+        data = request.form
+        user = data['user'].replace('.','__dot__')
+        password = data['password']
         db.child('User').child(user).child('password').set(password)
         db.child('User').child(user).child('cars_owned').child('ids').set({})
         db.child('User').child(user).child('cars_rented').child('ids').set({})
@@ -140,8 +142,9 @@ def register():
 @app.route('/unlock', methods = ['GET','POST'])
 def unlock():
     if request.method == 'POST':
-        email = request.args.get('email').replace('.','__dot__')
-        vehicle_id = request.args.get('vehicle_id')
+        data = request.form
+        email = data['email'].replace('.','__dot__')
+        vehicle_id = data['vehicle_id']
 
         cars_rented = db.child('User').child(email).child('cars_rented').child('ids').get().val()
         if vehicle_id in cars_rented and cars_rented[vehicle_id]:
@@ -160,8 +163,9 @@ def unlock():
 @app.route('/lock', methods = ['GET','POST'])
 def lock():
     if request.method == 'POST':
-        email = request.args.get('email').replace('.','__dot__')
-        vehicle_id = request.args.get('vehicle_id')
+        data = request.form
+        email = data['email'].replace('.','__dot__')
+        vehicle_id = data['vehicle_id']
 
         cars_rented = db.child('User').child(email).child('cars_rented').child('ids').get().val()
         if vehicle_id in cars_rented and cars_rented[vehicle_id]:
@@ -185,4 +189,4 @@ def lock():
 
 
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(host = "0.0.0.0", port = 80)
