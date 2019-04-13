@@ -1,0 +1,91 @@
+/* Style the video: 100% width and height to cover the entire window */
+#myVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%; 
+  min-height: 100%;
+}
+
+/* Add some content at the middle of the video/page */
+.content {
+  position: relative;
+  width: 100%;
+  margin-top:10%;
+  text-align: center;
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+.content2 {
+  position: relative;
+  width: 100%;
+  margin-top: 50%;
+  text-align: center;
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Style the button used to pause/play the video */
+#myBtn {
+  width: 200px;
+  font-size: 18px;
+  padding: 10px;
+  border: none;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+
+#myBtn:hover {
+  background: #ddd;
+  color: black;
+}
+
+.page-title{
+    display:inline-block;
+    padding-left:10px;
+    font-size:28px;
+}
+
+.navbar{
+    background-color: transparent !important;
+}
+}
+
+.navbar-brand{
+    opacity: 1;
+}
+
+video#bgvid {
+position: fixed; right: 0; bottom: 0;
+min-width: 100%; min-height: 100%;
+width: auto; height: auto; z-index: -100;
+background: url(polina.jpg) no-repeat;
+background-size: cover;
+}
+
+.bg {
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.button4 {
+  background-color: white;
+  color: white;
+  border: 2px solid #e7e7e7;
+  background-color: transparent;
+
+}
+
+.button4:hover {
+  background-color: #e7e7e7;
+  opacity: 0.5;}
