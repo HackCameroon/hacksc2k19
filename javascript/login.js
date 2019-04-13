@@ -16,6 +16,7 @@ console.log(user);
     dataType: 'json',
     success: function(response) {
 			console.log("Successful");
+			window.location.replace('/dashboard.html');
 }
 
 });
