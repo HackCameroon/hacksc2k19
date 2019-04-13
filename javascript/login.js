@@ -1,17 +1,23 @@
-$(".form1").submit(function(){
-  alert("Submitted");
+$(".submit").click(function(){
+  console.log("Submitted");
 
+var user = document.getElementById("user").value;
+var pass = document.getElementById("pass").value;
+console.log(user);
 
  $.ajax({
     url: 'http://34.212.86.167/client_login',
-    type: 'post',
+    type: 'POST',
     data: 
     {
-
+    	"user": user,
+    	"password": pass
     },
     dataType: 'json',
     success: function(response) {
-			//success redirect to....
+			console.log("Successful");
+}
+
 });
 
 });
