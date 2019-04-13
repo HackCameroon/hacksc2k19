@@ -6,7 +6,7 @@ var pass = document.getElementById("pass").value;
 console.log(user);
 
  $.ajax({
-    url: 'http://34.212.86.167/client_login',
+    url: 'https://34.212.86.167:80/client_login',
     type: 'POST',
     data: 
     {

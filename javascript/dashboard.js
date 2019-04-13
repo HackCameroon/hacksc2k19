@@ -2,21 +2,20 @@ var map;
 var userLatitude = 34.040800499999996;
 var userLongitude = -118.2557107;
 var availableCars;
+var flag = false;
 
 
-getAvailableCars();
-getLocation();
 function getAvailableCars(){
-  console.log("Session storage: " + sessionStorage.getItem('user'));
 $.ajax({
     url: 'https://34.212.86.167:80/available_cars',
     type: 'GET',
+    async: false,
     data: 
     {
     },
     dataType: 'json',
     success: function(response) {
-      console.log(response);
+
       availableCars = response;
 
       var divCol  = "<div class='col-sm-4 col-md-4'>";
@@ -24,7 +23,7 @@ $.ajax({
         var divClose= "</div>";
 
         for(var prop in response) {
-          console.log(response[prop].info);
+
            var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
             response[prop].info.year + "</h3>";
             var odometer = "<h3>" + response[prop].odometer.data.distance + " miles driven. </h3>";
@@ -44,6 +43,9 @@ $.ajax({
             $('.col-sm-12').append(div); // insert the div you've just created
 
         }
+
+        sessionStorage.setItem('response', response);
+        sessionStorage
 
 }
 
@@ -69,8 +71,11 @@ function setPosition(position) {
 }
 
 function initMap() {
-getAvailableCars();
+
+
 getLocation();
+getAvailableCars();
+
   
   map = new google.maps.Map(
       document.getElementById('map'),
@@ -79,32 +84,57 @@ getLocation();
   var iconBase =
       './images/car_clipart_resized.png';
 
-  
-        for(var prop in response) {
+
+  var markers = [];
+  var contentStrings = [];
+        for(var prop in availableCars) {
+          console.log(availableCars[prop]);
           var contentString = 
           '<div id="content">' + 
           '<div id="siteNotice">' + 
           '</div>' + 
-          '<h1 id="firstHeading" class="firstHeading">' +  + '</h1>'+
-            '<div id="bodyContent">' +
+          '<div id="bodyContent">' + 
+          '<p>' + availableCars[prop].info.make + " " + availableCars[prop].info.model  + " " + 
+            availableCars[prop].info.year + '</p>' +
+            '</div></div>';
 
+            contentStrings.push(contentString);
+
+            var carLat = availableCars[prop].location.data.latitude;
+            var carLong = availableCars[prop].location.data.longitude;
+
+            var position = new google.maps.LatLng(carLat, carLong);
+
+
+        
+
+             var marker = new google.maps.Marker({
+      position: position,
+      icon: iconBase,
+      map: map,
+    });
+            markers.push(marker);
 
         }
 
-  var features = [
-    {
-      position: new google.maps.LatLng(-33.91721, 151.22630)
-    }, {
-      position: new google.maps.LatLng(-33.91539, 151.22820)
-    }
-  ];
+var infowindows = [];
+for(let i = 0; i < markers.length; i++){
 
-  // Create markers.
-  for (var i = 0; i < features.length; i++) {
-    var marker = new google.maps.Marker({
-      position: features[i].position,
-      icon: iconBase,
-      map: map
-    });
-  };
+  console.log(contentStrings[i]);
+var infowindow = new google.maps.InfoWindow({
+          content: contentStrings[i]
+        });
+infowindows.push(infowindow);
+
+
+
 }
+
+for(let i = 0; i < infowindows.length; i++){
+  markers[i].addListener('click', function() {
+          infowindows[i].open(map, markers[i]);
+        });
+}
+ 
+}
+  
