@@ -30,7 +30,7 @@ db = firebase.database()
 client = smartcar.AuthClient(
     client_id = "db0c47e9-4ab8-45d1-be16-2e474625279a",
     client_secret = "98588318-38af-4b62-b5de-7139609561eb",
-    redirect_uri = 'https://34.212.86.167:8000/exchange',
+    redirect_uri = 'https://34.212.86.167:80/exchange',
     scope=['read_vehicle_info','control_security', 'control_security:unlock', 'control_security:lock','read_location','read_odometer',],
     test_mode=False
 )
