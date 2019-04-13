@@ -81,8 +81,8 @@ def vehicle():
     vehicle_info = vehicle.info()
     vehicle_id = vehicle_info['id']
     del vehicle_info['id']
-    dic = {email : {'ids' : [vehicle_id]}}
-    db.child("User").child(email).child('cars_owned').set(dic[email])
+    dic = {email : {'ids' : {vehicle_id : True}}}
+    db.child("User").child(email).child('cars_owned').child('ids').update({vehicle_id : True})
     
     dic = {vehicle_id:{}}
     
@@ -107,10 +107,13 @@ def vehicle():
 @app.route('/rent', methods=['GET'])
 def rent():
     vehicle_id = request.args.get('id')
+    email = request.args.get('email').replace('.','__dot__')
     if not db.child('Car').child(vehicle_id).get().val()['rented']:
-        return 'Success',200
+        db.child('Car').child(vehicle_id).update({'rented' : True})
+        db.child('User').child(email).child('cars_rented').child('ids').update({vehicle_id : True})
+        return jsonify({'status':'Success'})
     else:
-        return 'Car rented out already',404
+        return jsonify({'status':'Error, car already rented out.'})
 
 @app.route('/client_login', methods = ['GET','POST'])
 def client_login():
@@ -118,9 +121,9 @@ def client_login():
         user = request.args.get('user').replace('.','__dot__')
         password = request.args.get('password').replace('.','__dot__')
         if db.child('User').child(user).get().val()['password'] == password:
-            return 'Success', 200
+            return jsonify({'status':'Success'})
         else:
-            return 'Wrong password', 404
+            return jsonify({'status':'Error, wrong password'})
 
 
 @app.route('/register', methods = ['GET','POST'])
@@ -128,8 +131,57 @@ def register():
     if request.method == 'POST':
         user = request.args.get('user').replace('.','__dot__')
         password = request.args.get('password').replace('.','__dot__')
-        db.child('User').child(user).set({'password':password})
-        return 'Success',200
+        db.child('User').child(user).child('password').set(password)
+        db.child('User').child(user).child('cars_owned').child('ids').set({})
+        db.child('User').child(user).child('cars_rented').child('ids').set({})
+        return jsonify({'status':'Success'})
+
+
+@app.route('/unlock', methods = ['GET','POST'])
+def unlock():
+    if request.method == 'POST':
+        email = request.args.get('email').replace('.','__dot__')
+        vehicle_id = request.args.get('vehicle_id')
+
+        cars_rented = db.child('User').child(email).child('cars_rented').child('ids').get().val()
+        if vehicle_id in cars_rented and cars_rented[vehicle_id]:
+            vehicle_access = db.child('Car').child(vehicle_id).child('access').get().val()['refresh_token']
+
+            new_access = client.exchange_refresh_token(vehicle_access)
+            new_access['expiration'] = str(new_access['expiration'])
+            new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
+            db.child('Car').child(vehicle_id).child('access').set(new_access)
+            vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
+            #vehicle.unlock()
+            return jsonify({'status':'Success'})
+        else:
+            return jsonify({'status':'You do not have access to this vehicle.'})
+
+@app.route('/lock', methods = ['GET','POST'])
+def lock():
+    if request.method == 'POST':
+        email = request.args.get('email').replace('.','__dot__')
+        vehicle_id = request.args.get('vehicle_id')
+
+        cars_rented = db.child('User').child(email).child('cars_rented').child('ids').get().val()
+        if vehicle_id in cars_rented and cars_rented[vehicle_id]:
+            vehicle_access = db.child('Car').child(vehicle_id).child('access').get().val()['refresh_token']
+
+            new_access = client.exchange_refresh_token(vehicle_access)
+            new_access['expiration'] = str(new_access['expiration'])
+            new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
+            db.child('Car').child(vehicle_id).child('access').set(new_access)
+            vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
+            vehicle.lock()
+            return jsonify({'status':'Success'})
+        else:
+            return jsonify({'status':'You do not have access to this vehicle.'})
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
