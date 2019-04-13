@@ -204,6 +204,22 @@ def car_info():
         return jsonify(info)
 
 
+@app.route('/registered_vehicles', methods = ['GET'])
+def registered_vehicles():
+    if request.method == 'GET':
+        email = request.args.get('email').replace('.','__dot__')
+        users = db.child('User').get().val()
+        cars = db.child('Car').get().val()
+        vehicle_ids = {}
+        if email in users:
+            vehicles = [k    for k,v in users[email]['cars_owned']['ids'].items() if v]
+            for v in vehicles:
+                vehicle_ids[v] = cars[v]
+                del vehicle_ids[v]['access']
+            return jsonify(vehicle_ids)
+        else:
+            return jsonify({'status':'Error, email is not a registered user'})
+
 
 
 
