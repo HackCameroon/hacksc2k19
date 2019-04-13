@@ -30,7 +30,7 @@ db = firebase.database()
 client = smartcar.AuthClient(
     client_id = "db0c47e9-4ab8-45d1-be16-2e474625279a",
     client_secret = "98588318-38af-4b62-b5de-7139609561eb",
-    redirect_uri = 'https://34.212.86.167:80/exchange',
+    redirect_uri = 'https://34.212.86.167:8000/exchange',
     scope=['read_vehicle_info','control_security', 'control_security:unlock', 'control_security:lock','read_location','read_odometer',],
     test_mode=False
 )
@@ -203,6 +203,22 @@ def car_info():
         del info['access']
         return jsonify(info)
 
+
+@app.route('/registered_vehicles', methods = ['GET'])
+def registered_vehicles():
+    if request.method == 'GET':
+        email = request.args.get('email').replace('.','__dot__')
+        users = db.child('User').get().val()
+        cars = db.child('Car').get().val()
+        vehicle_ids = {}
+        if email in users:
+            vehicles = [k    for k,v in users[email]['cars_owned']['ids'].items() if v]
+            for v in vehicles:
+                vehicle_ids[v] = cars[v]
+                del vehicle_ids[v]['access']
+            return jsonify(vehicle_ids)
+        else:
+            return jsonify({'status':'Error, email is not a registered user'})
 
 
 
