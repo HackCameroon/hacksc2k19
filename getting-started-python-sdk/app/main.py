@@ -121,6 +121,8 @@ def client_login():
         data = request.form
         user = data['user'].replace('.','__dot__')
         password = data['password']
+        if user not in db.child('User').get().val():
+            return return jsonify({'status':'Error, account does not exist'})
         if db.child('User').child(user).get().val()['password'] == password:
             return jsonify({'status':'Success'})
         else:
@@ -183,7 +185,11 @@ def lock():
 
 
 
-
+@app.route('/available_cars', methods = ['GET'])
+def available_cars():
+    if request.method == 'GET':
+        cars = db.child('Car').get().val()
+        print(cars)
 
 
 
