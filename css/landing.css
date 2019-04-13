@@ -133,3 +133,7 @@ background-size: cover;
 .form-control {
     width:400px !important;
 }
+
+.p {
+  font-family: Gotham Medium, system, sans serif;
+}
