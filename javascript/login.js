@@ -15,8 +15,18 @@ console.log(user);
     },
     dataType: 'json',
     success: function(response) {
-			console.log("Successful");
-			window.location.replace('/dashboard.html');
+			console.log(response);
+
+
+			if(response.status != "Success")
+				alert("Error: Account not found.");
+			else
+			{
+				sessionStorage.setItem('user', user);
+				window.location.replace('/dashboard.html');
+			}
+			
+			
 }
 
 });
