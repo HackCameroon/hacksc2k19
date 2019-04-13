@@ -81,8 +81,8 @@ def vehicle():
     vehicle_info = vehicle.info()
     vehicle_id = vehicle_info['id']
     del vehicle_info['id']
-    dic = {email : {'ids' : [vehicle_id]}}
-    db.child("User").child(email).child('cars_owned').set(dic[email])
+    dic = {email : {'ids' : {vehicle_id : True}}}
+    db.child("User").child(email).child('cars_owned').child('ids').update({vehicle_id : True})
     
     dic = {vehicle_id:{}}
     
@@ -107,7 +107,10 @@ def vehicle():
 @app.route('/rent', methods=['GET'])
 def rent():
     vehicle_id = request.args.get('id')
+    email = request.args.get('email').replace('.','__dot__')
     if not db.child('Car').child(vehicle_id).get().val()['rented']:
+        db.child('Car').child(vehicle_id).update({'rented' : True})
+        db.child('User').child(email).child('cars_rented').child('ids').update({vehicle_id : True})
         return 'Success',200
     else:
         return 'Car rented out already',404
@@ -128,8 +131,57 @@ def register():
     if request.method == 'POST':
         user = request.args.get('user').replace('.','__dot__')
         password = request.args.get('password').replace('.','__dot__')
-        db.child('User').child(user).set({'password':password})
+        db.child('User').child(user).child('password').set(password)
+        db.child('User').child(user).child('cars_owned').child('ids').set({})
+        db.child('User').child(user).child('cars_rented').child('ids').set({})
         return 'Success',200
+
+
+@app.route('/unlock', methods = ['GET','POST'])
+def unlock():
+    if request.method == 'POST':
+        email = request.args.get('email').replace('.','__dot__')
+        vehicle_id = request.args.get('vehicle_id')
+
+        cars_rented = db.child('User').child(email).child('cars_rented').child('ids').get().val()
+        if vehicle_id in cars_rented and cars_rented[vehicle_id]:
+            vehicle_access = db.child('Car').child(vehicle_id).child('access').get().val()['refresh_token']
+
+            new_access = client.exchange_refresh_token(vehicle_access)
+            new_access['expiration'] = str(new_access['expiration'])
+            new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
+            db.child('Car').child(vehicle_id).child('access').set(new_access)
+            vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
+            #vehicle.unlock()
+            return 'Success',200
+        else:
+            return 'You do not have access to this car', 404
+
+@app.route('/lock', methods = ['GET','POST'])
+def lock():
+    if request.method == 'POST':
+        email = request.args.get('email').replace('.','__dot__')
+        vehicle_id = request.args.get('vehicle_id')
+
+        cars_rented = db.child('User').child(email).child('cars_rented').child('ids').get().val()
+        if vehicle_id in cars_rented and cars_rented[vehicle_id]:
+            vehicle_access = db.child('Car').child(vehicle_id).child('access').get().val()['refresh_token']
+
+            new_access = client.exchange_refresh_token(vehicle_access)
+            new_access['expiration'] = str(new_access['expiration'])
+            new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
+            db.child('Car').child(vehicle_id).child('access').set(new_access)
+            vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
+            vehicle.lock()
+            return 'Success',200
+        else:
+            return 'You do not have access to this car', 404
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
