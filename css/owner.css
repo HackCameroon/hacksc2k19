@@ -26,7 +26,7 @@ html {
   position: relative;
   width: 100%;
   text-align: center;
-  color: #f1f1f1;
+  color: #7d7d7d;
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 2%;
@@ -133,14 +133,19 @@ background-size: cover;
     border-radius: 10px;
 }
 
+.pic2{
+    width: 100%;
+    border-radius: 10px;
+}
+
 .profile{
     position: relative;
     display: inline;
     margin-left: auto;
     margin-right: auto;
-    color:white;
+    color:#7d7d7d;
     text-align: center;
-    padding-top: 5%;
+    font-weight:400;
 }
 
 
@@ -148,8 +153,8 @@ background-size: cover;
     width:400px !important;
 }
 
-.p {
-  font-family: Gotham Medium, system, sans serif;
+p {
+  color: #7d7d7d;
 }
 
 hr {
@@ -180,3 +185,7 @@ hr {
   border-right-width: 4px;
 }
 
+h3
+{
+  color: #7d7d7d;
+}
