@@ -111,9 +111,9 @@ def rent():
     if not db.child('Car').child(vehicle_id).get().val()['rented']:
         db.child('Car').child(vehicle_id).update({'rented' : True})
         db.child('User').child(email).child('cars_rented').child('ids').update({vehicle_id : True})
-        return 'Success',200
+        return jsonify({'status':'Success'})
     else:
-        return 'Car rented out already',404
+        return jsonify({'status':'Error, car already rented out.'})
 
 @app.route('/client_login', methods = ['GET','POST'])
 def client_login():
@@ -121,9 +121,9 @@ def client_login():
         user = request.args.get('user').replace('.','__dot__')
         password = request.args.get('password').replace('.','__dot__')
         if db.child('User').child(user).get().val()['password'] == password:
-            return 'Success', 200
+            return jsonify({'status':'Success'})
         else:
-            return 'Wrong password', 404
+            return jsonify({'status':'Error, wrong password'})
 
 
 @app.route('/register', methods = ['GET','POST'])
@@ -134,7 +134,7 @@ def register():
         db.child('User').child(user).child('password').set(password)
         db.child('User').child(user).child('cars_owned').child('ids').set({})
         db.child('User').child(user).child('cars_rented').child('ids').set({})
-        return 'Success',200
+        return jsonify({'status':'Success'})
 
 
 @app.route('/unlock', methods = ['GET','POST'])
@@ -153,9 +153,9 @@ def unlock():
             db.child('Car').child(vehicle_id).child('access').set(new_access)
             vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
             #vehicle.unlock()
-            return 'Success',200
+            return jsonify({'status':'Success'})
         else:
-            return 'You do not have access to this car', 404
+            return jsonify({'status':'You do not have access to this vehicle.'})
 
 @app.route('/lock', methods = ['GET','POST'])
 def lock():
@@ -173,9 +173,9 @@ def lock():
             db.child('Car').child(vehicle_id).child('access').set(new_access)
             vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
             vehicle.lock()
-            return 'Success',200
+            return jsonify({'status':'Success'})
         else:
-            return 'You do not have access to this car', 404
+            return jsonify({'status':'You do not have access to this vehicle.'})
 
 
 
