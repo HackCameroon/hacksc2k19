@@ -50,6 +50,7 @@ function return_car(vehicle_id){
             console.log(response);
             location.reload();
         }
+
     });
 }
 function get_rented_vehicles()
@@ -68,6 +69,7 @@ $.ajax({
         var divCol  = "<div class='profile col-md-4'>";
         
         var divClose= "</div>";
+       
 
         for(var prop in response) {
         
@@ -95,9 +97,13 @@ $.ajax({
               $('.container').append(make); // insert the div you've just created
 
         }
+    
 
-
-    }
+    },
+    error: function(){
+            alert("You have no registered vehicles");
+            window.location.replace('/dashboard.html');
+        }
 
 });
 
