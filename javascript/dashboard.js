@@ -18,33 +18,31 @@ $.ajax({
 
       availableCars = response;
 
-      var divCol  = "<div class='col-sm-4 col-md-4'>";
+      var divCol  = "<div class='profile col-md-4'>";
         
-        var divClose= "</div>";
+      var divClose= "</div>";
 
-        for(var prop in response) {
-
-           var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
+      for(var prop in response) {
+        console.log(response[prop].info);
+          var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
             response[prop].info.year + "</h3>";
-            var odometer = "<h3>" + response[prop].odometer.data.distance + " miles driven. </h3>";
+          var odometer = "<p>" + Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kilometers driven. </p>";
+          var image = "<img src='../images/" + response[prop].info.make + ".jpg' class='img-responsive pic2' />";
+          var rented     = (response[prop].rented) ? "<p style = 'font-weight:500;'> RENTED</p>" : "<p style = 'font-weight:500;'> AVAILABLE </p>";
 
-            var linkStart = "<a href='" + response[prop] + "'>";
-            var image     = "RENT NOW"
-            var linkEnd   = "</a>";
 
-            var div = divCol    +
+            var div = divCol    + image +
                             make       +
                             odometer + 
-                            linkStart       +
-                            image       +
-                            linkEnd +
+                            
+                            rented       +
+                            
                       divClose;
 
-            $('.col-sm-12').append(div); // insert the div you've just created
+            $('.row').append(div); // insert the div you've just created
 
         }
-
-        sessionStorage.setItem('response', response);
+       sessionStorage.setItem('response', response);
         sessionStorage
 
 }
