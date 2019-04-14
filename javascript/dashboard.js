@@ -30,7 +30,7 @@ $.ajax({
             response[prop].info.year + "</h3>";
             var odometer = "<h3>" + response[prop].odometer.data.distance + " miles driven. </h3>";
 
-            var linkStart = "<a href='/rent.html?" + prop + "'>";
+            var linkStart = "<a href='/rent.html?id=" + prop + "'>";
             var image     = "RENT NOW"
             var linkEnd   = "</a>";
 
