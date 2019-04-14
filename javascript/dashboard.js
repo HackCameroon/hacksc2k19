@@ -28,14 +28,18 @@ $.ajax({
             response[prop].info.year + "</h3>";
           var odometer = "<p>" + Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kilometers driven. </p>";
           var image = "<img src='../images/" + response[prop].info.make + ".jpg' class='img-responsive pic2' />";
-          var rented     = (response[prop].rented) ? "<p style = 'font-weight:500;'> RENTED</p>" : "<p style = 'font-weight:500;'> AVAILABLE </p>";
+          var linkStart = "<a href='rent.html?id=" + prop + "'>";
+          var image2 = "RENT NOW";
+          var linkEnd = "</a>";
 
 
             var div = divCol    + image +
                             make       +
                             odometer + 
                             
-                            rented       +
+                            linkStart       +
+                            image2+
+                            linkEnd+
                             
                       divClose;
 
