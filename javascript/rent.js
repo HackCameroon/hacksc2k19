@@ -26,6 +26,6 @@ function rent() {
 });
 
 
-	//	setTimeout(function(){ window.location.replace('/dashboard.html'); }, 4000);
+		setTimeout(function(){ window.location.replace('/dashboard.html'); }, 4000);
 
 }
