@@ -32,7 +32,8 @@ $.ajax({
           var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
             response[prop].info.year + "</h3>";
           var odometer = "<p>" + Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kilometers driven. </p>";
-          var image = "<img src='../images/" + response[prop].info.make + ".jpg' class='img-responsive pic2' />";
+          var brand = response[prop].info.make;
+          var image = "<img src='../images/" + brand.toLowerCase() + ".jpg' class='img-responsive pic2' />";
           var rented     = (response[prop].rented) ? "<p style = 'font-weight:500;'> RENTED</p>" : "<p style = 'font-weight:500;'> AVAILABLE </p>";
 
 

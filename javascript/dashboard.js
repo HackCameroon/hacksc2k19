@@ -34,7 +34,8 @@ $.ajax({
 
             response[prop].info.year + "</h3>";
           var odometer = "<p>" + Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kilometers driven. </p>";
-          var image = "<img src='../images/" + response[prop].info.make + ".jpg' class=' pic2' />";
+          var brand = response[prop].info.make;
+          var image = "<img src='../images/" + brand.toLowerCase() + ".jpg' class='img-responsive pic2' />";
           var linkStart = "<a href='rent.html?id=" + prop + "'>";
           var image2 = "RENT NOW";
           var linkEnd = "</a>";
