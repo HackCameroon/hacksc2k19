@@ -21,7 +21,14 @@ html {
   width: 100%;
   padding-top: 10%;
 }
-
+@media (max-width: 550px){
+  .content{
+    padding-top:20%;
+  }
+  .content p {
+    font-size:14px;
+  }
+}
 .content2 {
   position: relative;
   width: 100%;
@@ -71,7 +78,7 @@ html {
 }
 
 .navbar{
-    background-color: transparent !important;
+    background-color: white !important;
 }
 }
 
@@ -188,4 +195,7 @@ hr {
 h3
 {
   color: #7d7d7d;
+}
+.form-cont{
+  margin:0;
 }
