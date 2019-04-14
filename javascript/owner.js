@@ -1,3 +1,6 @@
+if(sessionStorage.getItem('user') == null)
+  window.location.replace('/login.html');
+
 var map;
 var userLatitude = 34.040800499999996;
 var userLongitude = -118.2557107;

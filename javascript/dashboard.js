@@ -4,6 +4,8 @@ var userLongitude = -118.2557107;
 var availableCars;
 var flag = false;
 
+if(sessionStorage.getItem('user') == null)
+  window.location.replace('/login.html');
 
 function getAvailableCars(){
 $.ajax({
@@ -23,12 +25,12 @@ $.ajax({
         var divClose= "</div>";
 
         for(var prop in response) {
-
+          console.log(response[prop]);
            var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
             response[prop].info.year + "</h3>";
             var odometer = "<h3>" + response[prop].odometer.data.distance + " miles driven. </h3>";
 
-            var linkStart = "<a href='" + response[prop] + "'>";
+            var linkStart = "<a href='/rent.html?" + prop + "'>";
             var image     = "RENT NOW"
             var linkEnd   = "</a>";
 
