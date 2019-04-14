@@ -157,7 +157,8 @@ def unlock():
             new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
             db.child('Car').child(vehicle_id).child('access').set(new_access)
             vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
-            vehicle.unlock()
+            response = vehicle.api.action('security', 'UNLOCK')
+            print(response.text)
             return jsonify({'status':'Success'})
         else:
             return jsonify({'status':'You do not have access to this vehicle.'})
@@ -178,7 +179,8 @@ def lock():
             new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
             db.child('Car').child(vehicle_id).child('access').set(new_access)
             vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
-            vehicle.lock()
+            response = vehicle.api.action('security', 'LOCK')
+            print(response.text)
             return jsonify({'status':'Success'})
         else:
             return jsonify({'status':'You do not have access to this vehicle.'})
@@ -254,4 +256,4 @@ def return_car():
 
 
 if __name__ == '__main__':
-    app.run(ssl_context = "adhoc", host = "0.0.0.0", port = 80)
+    app.run( host = "0.0.0.0", port = 80)
