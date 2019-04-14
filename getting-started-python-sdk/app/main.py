@@ -157,8 +157,11 @@ def unlock():
             new_access['refresh_expiration'] = str(new_access['refresh_expiration'])
             db.child('Car').child(vehicle_id).child('access').set(new_access)
             vehicle = smartcar.Vehicle(vehicle_id, new_access['access_token'])
+
             response = vehicle.api.action('security', 'UNLOCK')
             print(response.text)
+
+            
             return jsonify({'status':'Success'})
         else:
             return jsonify({'status':'You do not have access to this vehicle.'})
