@@ -30,7 +30,7 @@ db = firebase.database()
 client = smartcar.AuthClient(
     client_id = "db0c47e9-4ab8-45d1-be16-2e474625279a",
     client_secret = "98588318-38af-4b62-b5de-7139609561eb",
-    redirect_uri = 'https://34.212.86.167:80/exchange',
+    redirect_uri = 'https://localhost:80/exchange',
     scope=['read_vehicle_info','control_security', 'control_security:unlock', 'control_security:lock','read_location','read_odometer',],
     test_mode=False
 )
@@ -220,8 +220,21 @@ def registered_vehicles():
         else:
             return jsonify({'status':'Error, email is not a registered user'})
 
+@app.route('/return_car', methods = ['GET'])
+def return_car():
+    if request.method == 'GET':
+        vehicle_id = request.args.get('id');
+        email = request.args.get('email').replace('.','__dot__')
+        if db.child('Car').child(vehicle_id).get().val()['rented']:
+            db.child('Car').child(vehicle_id).update({'rented' : False})
+            db.child('User').child(email).child('cars_rented').child('ids').child(vehicle_id).remove()
+            return jsonify({'status':'Success'})
+        else:
+            return jsonify({'status':'Error, car already rented out.'})
+
+
 
 
 
 if __name__ == '__main__':
-    app.run(host = "0.0.0.0", port = 80)
+    app.run(ssl_context = "adhoc", host = "0.0.0.0", port = 80)
