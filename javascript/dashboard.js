@@ -4,6 +4,9 @@ var userLongitude = -118.2557107;
 var availableCars;
 var flag = false;
 
+// Animations init
+new WOW().init();
+
 if(sessionStorage.getItem('user') == null)
   window.location.replace('/login.html');
 
