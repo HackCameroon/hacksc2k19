@@ -83,7 +83,7 @@ $.ajax({
                                 </div>
                                 <div class = 'controls'>
                                     <div onclick = "return_car('${prop}');" class = 'col-md-4 btn btn-controls btn-dark'> Return Car</div>
-                                    <div class = 'col-md-4 btn btn-controls btn-dark'> Test </div>
+                                    
                                 </div>
                             </div>
                             
