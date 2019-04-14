@@ -73,7 +73,7 @@ $.ajax({
         
             var make = `
                        <div class = 'container-fluid veh-cont'> 
-                            <img src = '../images/${response[prop].info.make}.jpg' class = 'img-fluid car-pic' /> 
+                            <img src = '../images/${response[prop].info.make.toLowerCase()}.jpg' class = 'img-fluid car-pic' /> 
                             <p class = 'vehicle_title'> ${response[prop].info.make} ${response[prop].info.model} ${response[prop].info.year} </p>
                             <p class = 'vehicle_title'> ${Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} kilometers driven. </p>
                             <div class = 'controls-cont'>
