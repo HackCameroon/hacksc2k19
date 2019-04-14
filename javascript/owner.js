@@ -6,6 +6,19 @@ var userLatitude = 34.040800499999996;
 var userLongitude = -118.2557107;
 var availableCars;
 
+$("#new-button2").click(function() {
+$.ajax({
+    url: 'https://34.212.86.167:80/login',
+    type: 'GET',
+    data: 
+    {
+      "email": sessionStorage.getItem('user')
+    },
+    dataType: 'json',
+    success: function(response) {console.log(response);}
+
+});
+});
 
 getAvailableCars();
 
