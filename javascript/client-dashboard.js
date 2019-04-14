@@ -3,6 +3,55 @@
 
 var rented_vehicles;
 
+
+function unlock(vehicle_id){
+    console.log(vehicle_id);
+    $.ajax({
+        url: 'https://34.212.86.167:80/unlock',
+        type: 'POST',
+        data:{
+            "email" : sessionStorage.getItem('user'),
+            "vehicle_id" : vehicle_id
+        },
+        dataType: 'json',
+        success: function(response){
+            console.log(response);
+        }
+    });
+}
+
+function lock(vehicle_id){
+    console.log(vehicle_id);
+    $.ajax({
+        url: 'https://34.212.86.167:80/lock',
+        type: 'POST',
+        data: {
+            "email" : sessionStorage.getItem('user'),
+            "vehicle_id" : vehicle_id
+        },
+        dataType: 'json',
+        success: function(response){
+            console.log(response);
+        }
+    });
+}
+
+function return_car(vehicle_id){
+    console.log(vehicle_id);
+    $.ajax({
+        url : 'https://34.212.86.167:80/return_car',
+        type: 'GET',
+        data: {
+            "email" : sessionStorage.getItem('user'),
+            "id" : vehicle_id
+        },
+        dataType: 'json',
+        success: function(response){
+            console.log(response);
+            location.reload();
+        }
+    });
+}
 function get_rented_vehicles()
 {
 $.ajax({
@@ -29,11 +78,11 @@ $.ajax({
                             <p class = 'vehicle_title'> ${Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} kilometers driven. </p>
                             <div class = 'controls-cont'>
                                 <div class = 'controls'> 
-                                    <div onclick = unlock(${prop}); class = 'col-md-4 btn btn-controls btn-dark'> Unlock </div>
-                                    <div class = 'col-md-4 btn btn-controls btn-dark'> Lock </div>
+                                    <div onclick = "unlock('${prop}');" class = 'col-md-4 btn btn-controls btn-dark'> Unlock </div>
+                                    <div onclick = "lock('${prop}');" class = 'col-md-4 btn btn-controls btn-dark'> Lock </div>
                                 </div>
                                 <div class = 'controls'>
-                                    <div class = 'col-md-4 btn btn-controls btn-dark'> Return </div>
+                                    <div onclick = "return_car('${prop}');" class = 'col-md-4 btn btn-controls btn-dark'> Return Car</div>
                                     <div class = 'col-md-4 btn btn-controls btn-dark'> Test </div>
                                 </div>
                             </div>
