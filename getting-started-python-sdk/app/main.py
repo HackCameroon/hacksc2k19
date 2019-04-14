@@ -102,7 +102,7 @@ def vehicle():
     info = vehicle.info()
     print(info)
 
-    return jsonify(info)
+    return redirect('http://ec2-54-183-104-136.us-west-1.compute.amazonaws.com:8080/become-an-owner/owner.html')
 
 @app.route('/rent', methods=['GET'])
 def rent():
@@ -254,7 +254,20 @@ def return_car():
         else:
             return jsonify({'status':'Error, car already rented out.'})
 
-
+@app.route('/remove_car', methods = ['GET'])
+def remove_car():
+    if request.method == 'GET':
+        vehicle_id = request.args.get('id');
+        email = request.args.get('email').replace('.','__dot__')
+        users = db.child('User').get().val()
+        db.child('Car').child(vehicle_id).remove()
+        for k,v in users.items():
+            if 'cars_owned' in users[k] and vehicle_id in users[k]['cars_owned']['ids']:
+                db.child('User').child(k).child('cars_owned').child('ids').child(vehicle_id).remove()
+            if 'cars_rented' in users[k] and vehicle_id in users[k]['cars_rented']['ids']:
+                db.child('User').child(k).child('cars_rented').child('ids').child(vehicle_id).remove()
+            return jsonify({'status':'Success'})
+        
 
 
 
