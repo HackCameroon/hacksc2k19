@@ -6,6 +6,22 @@ var userLatitude = 34.040800499999996;
 var userLongitude = -118.2557107;
 var availableCars;
 
+function remove_car(vehicle_id){
+  $.ajax({
+    url: 'https://34.212.86.167:80/remove_car',
+    type : 'GET',
+    data: {
+      "id" : vehicle_id,
+      "email" : sessionStorage.getItem('user')
+    },
+    dataType : 'json',
+    success: function(response) {
+      console.log(response);  
+    }
+
+  });
+}
+
 $("#new-button2").click(function() {
 
   window.location.href = 'https://34.212.86.167:80/login?email=' + sessionStorage.getItem('user');
@@ -52,13 +68,14 @@ $.ajax({
           var brand = response[prop].info.make;
           var image = "<img src='../images/" + brand.toLowerCase() + ".jpg' class='img-responsive pic2' />";
           var rented     = (response[prop].rented) ? "<p style = 'font-weight:500;'> RENTED</p>" : "<p style = 'font-weight:500;'> AVAILABLE </p>";
-
+          var remove = `<div onclick="remove_car('${prop}')" class = 'btn btn-primary'>Stop renting your vehicle </div>`
 
             var div = divCol    + image +
                             make       +
                             odometer + 
                             
                             rented       +
+                            remove
                             
                       divClose;
 
