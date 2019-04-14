@@ -220,6 +220,23 @@ def registered_vehicles():
         else:
             return jsonify({'status':'Error, email is not a registered user'})
 
+@app.route('/rented_vehicles', methods = ['GET'])
+def rented_vehicles():
+    if request.method == 'GET':
+        email = request.args.get('email').replace('.','__dot__')
+        users = db.child('User').get().val()
+        cars = db.child('Car').get().val()
+        vehicle_ids = {}
+        if email in users:
+            vehicles = [k    for k,v in users[email]['cars_rented']['ids'].items() if v]
+            for v in vehicles:
+                vehicle_ids[v] = cars[v]
+                del vehicle_ids[v]['access']
+            return jsonify(vehicle_ids)
+        else:
+            return jsonify({'status':'Error, email is not a registered user'})
+
+
 @app.route('/return_car', methods = ['GET'])
 def return_car():
     if request.method == 'GET':
