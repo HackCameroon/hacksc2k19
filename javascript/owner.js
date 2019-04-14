@@ -17,6 +17,7 @@ function remove_car(vehicle_id){
     dataType : 'json',
     success: function(response) {
       console.log(response);  
+      location.reload()
     }
 
   });
