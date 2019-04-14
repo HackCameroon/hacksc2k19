@@ -7,6 +7,10 @@ var userLongitude = -118.2557107;
 var availableCars;
 
 $("#new-button2").click(function() {
+
+  window.location.replace('https://34.212.86.167:80/login?email=' + sessionStorage.getItem('user'));
+
+/*
 $.ajax({
     url: 'https://34.212.86.167:80/login',
     type: 'GET',
@@ -17,7 +21,7 @@ $.ajax({
     dataType: 'json',
     success: function(response) {console.log(response);}
 
-});
+});*/
 });
 
 getAvailableCars();
