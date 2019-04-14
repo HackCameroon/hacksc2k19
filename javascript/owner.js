@@ -68,7 +68,7 @@ $.ajax({
           var brand = response[prop].info.make;
           var image = "<img src='../images/" + brand.toLowerCase() + ".jpg' class='img-responsive pic2' />";
           var rented     = (response[prop].rented) ? "<p style = 'font-weight:500;'> RENTED</p>" : "<p style = 'font-weight:500;'> AVAILABLE </p>";
-          var remove = `<div onclick="remove_car('${prop}')" class = 'btn btn-primary'>Stop renting your vehicle </div>`
+          var remove = `<div onclick="remove_car('${prop}')" style = 'cursor:pointer' class = 'btn btn-primary'>Stop renting your vehicle </div>`
 
             var div = divCol    + image +
                             make       +
