@@ -10,7 +10,7 @@ function unlock(vehicle_id){
         url: 'https://34.212.86.167:80/unlock',
         type: 'POST',
         data:{
-            "email" : sessionStorage.getItem('user'),
+            "email" : localStorage.getItem('user'),
             "vehicle_id" : vehicle_id
         },
         dataType: 'json',
@@ -26,7 +26,7 @@ function lock(vehicle_id){
         url: 'https://34.212.86.167:80/lock',
         type: 'POST',
         data: {
-            "email" : sessionStorage.getItem('user'),
+            "email" : localStorage.getItem('user'),
             "vehicle_id" : vehicle_id
         },
         dataType: 'json',
@@ -42,7 +42,7 @@ function return_car(vehicle_id){
         url : 'https://34.212.86.167:80/return_car',
         type: 'GET',
         data: {
-            "email" : sessionStorage.getItem('user'),
+            "email" : localStorage.getItem('user'),
             "id" : vehicle_id
         },
         dataType: 'json',
@@ -59,7 +59,7 @@ $.ajax({
     type: 'GET',
     data: 
     {
-    	"email": sessionStorage.getItem('user')
+    	"email": localStorage.getItem('user')
     },
     dataType: 'json',
     success: function(response) {

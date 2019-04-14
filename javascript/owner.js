@@ -1,4 +1,4 @@
-if(sessionStorage.getItem('user') == null)
+if(localStorage.getItem('user') == null)
   window.location.replace('/login.html');
 
 var map;
@@ -12,7 +12,7 @@ function remove_car(vehicle_id){
     type : 'GET',
     data: {
       "id" : vehicle_id,
-      "email" : sessionStorage.getItem('user')
+      "email" : localStorage.getItem('user')
     },
     dataType : 'json',
     success: function(response) {
@@ -24,7 +24,7 @@ function remove_car(vehicle_id){
 
 $("#new-button2").click(function() {
 
-  window.location.href = 'https://34.212.86.167:80/login?email=' + sessionStorage.getItem('user');
+  window.location.href = 'https://34.212.86.167:80/login?email=' + localStorage.getItem('user');
 
 /*
 $.ajax({
@@ -32,7 +32,7 @@ $.ajax({
     type: 'GET',
     data: 
     {
-      "email": sessionStorage.getItem('user')
+      "email": localStorage.getItem('user')
     },
     dataType: 'json',
     success: function(response) {console.log(response);}
@@ -43,13 +43,13 @@ $.ajax({
 getAvailableCars();
 
 function getAvailableCars(){
-  console.log("Session storage: " + sessionStorage.getItem('user'));
+  console.log("Session storage: " + localStorage.getItem('user'));
 $.ajax({
     url: 'https://34.212.86.167:80/registered_vehicles',
     type: 'GET',
     data: 
     {
-      "email": sessionStorage.getItem('user')
+      "email": localStorage.getItem('user')
     },
     dataType: 'json',
     success: function(response) {

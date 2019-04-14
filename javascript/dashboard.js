@@ -7,7 +7,7 @@ var flag = false;
 // Animations init
 
 
-if(sessionStorage.getItem('user') == null)
+if(localStorage.getItem('user') == null)
   window.location.replace('/login.html');
 
 function getAvailableCars(){
@@ -54,8 +54,8 @@ $.ajax({
             $('.row').append(div); // insert the div you've just created
 
         }
-       sessionStorage.setItem('response', response);
-        sessionStorage
+       localStorage.setItem('response', response);
+        localStorage
 
 }
 

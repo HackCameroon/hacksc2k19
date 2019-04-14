@@ -10,7 +10,7 @@ function rent() {
     data: 
     {
     	"id": rentParm,
-    	"email": sessionStorage.getItem('user')
+    	"email": localStorage.getItem('user')
     },
     dataType: 'json',
     success: function(response) {

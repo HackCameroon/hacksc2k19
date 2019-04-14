@@ -24,7 +24,7 @@ console.log(user);
 				alert("Error: Account not found.");
 			else
 			{
-				sessionStorage.setItem('user', user);
+				localStorage.setItem('user', user);
 				window.location.replace('/dashboard.html');
 			}
 			
