@@ -266,7 +266,7 @@ def remove_car():
                 db.child('User').child(k).child('cars_owned').child('ids').child(vehicle_id).remove()
             if 'cars_rented' in users[k] and vehicle_id in users[k]['cars_rented']['ids']:
                 db.child('User').child(k).child('cars_rented').child('ids').child(vehicle_id).remove()
-            return jsonify({'status':'Success'})
+        return jsonify({'status':'Success'})
         
 
 
