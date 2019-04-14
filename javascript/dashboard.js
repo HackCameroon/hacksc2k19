@@ -4,6 +4,8 @@ var userLongitude = -118.2557107;
 var availableCars;
 var flag = false;
 
+if(sessionStorage.getItem('user') == null)
+  window.location.replace('/login.html');
 
 function getAvailableCars(){
 $.ajax({
@@ -22,9 +24,11 @@ $.ajax({
         
       var divClose= "</div>";
 
-      for(var prop in response) {
-        console.log(response[prop].info);
-          var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
+
+        for(var prop in response) {
+          console.log(response[prop]);
+           var make     = "<h3>"      + response[prop].info.make + " " + response[prop].info.model  + " " + 
+
             response[prop].info.year + "</h3>";
           var odometer = "<p>" + Math.round(response[prop].odometer.data.distance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " kilometers driven. </p>";
           var image = "<img src='../images/" + response[prop].info.make + ".jpg' class='img-responsive pic2' />";
